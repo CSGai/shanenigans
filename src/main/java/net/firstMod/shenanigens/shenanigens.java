@@ -1,6 +1,9 @@
 package net.firstMod.shenanigens;
 
 import com.mojang.logging.LogUtils;
+import net.firstMod.shenanigens.item.ModCreativeModTabs;
+import net.firstMod.shenanigens.item.ModItems;
+import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
@@ -14,11 +17,11 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.slf4j.Logger;
 
 // The value here should match an entry in the META-INF/mods.toml file
-@Mod(shenanigens.MODID)
+@Mod(shenanigens.MOD_ID)
 public class shenanigens
 {
     // Define mod id in a common place for everything to reference
-    public static final String MODID = "shenaniganry";
+    public static final String MOD_ID = "shenaniganry";
     // Directly reference a slf4j logger
     private static final Logger LOGGER = LogUtils.getLogger();
 
@@ -26,13 +29,12 @@ public class shenanigens
     {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
 
-        // Register the commonSetup method for modloading
-        modEventBus.addListener(this::commonSetup);
+        ModItems.register(modEventBus);
+        ModCreativeModTabs.register(modEventBus);
 
-        // Register ourselves for server and other game events we are interested in
+        modEventBus.addListener(this::commonSetup);
         MinecraftForge.EVENT_BUS.register(this);
 
-        // Register the item to a creative tab
         modEventBus.addListener(this::addCreative);
 
     }
@@ -42,8 +44,8 @@ public class shenanigens
     }
 
     // Add the example block item to the building blocks tab
-    private void addCreative(BuildCreativeModeTabContentsEvent event)
-    {
+    private void addCreative(BuildCreativeModeTabContentsEvent event) {
+
     }
 
     // You can use SubscribeEvent and let the Event Bus discover methods to call
@@ -53,7 +55,7 @@ public class shenanigens
     }
 
     // You can use EventBusSubscriber to automatically register all static methods in the class annotated with @SubscribeEvent
-    @Mod.EventBusSubscriber(modid = MODID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
+    @Mod.EventBusSubscriber(modid = MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
     public static class ClientModEvents
     {
         @SubscribeEvent
