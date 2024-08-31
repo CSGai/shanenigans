@@ -22,21 +22,18 @@ public class Ligma extends Item {
         ItemStack itemstack = player.getItemInHand(hand);
 
         if (!world.isClientSide) {
-            // Determine the block the player is looking at
-            BlockPos blockPos = getPlayerLookingAt(player, world, 20.0);  // Adjust range as needed
+            BlockPos blockPos = getPlayerLookingAt(player, world, 50.0);
 
             if (blockPos != null) {
-                // Create an explosion at the block the player is looking at
-                world.explode(player, blockPos.getX(), blockPos.getY(), blockPos.getZ(), 4.0F, Level.ExplosionInteraction.TNT);
+                world.explode(player, blockPos.getX(), blockPos.getY(), blockPos.getZ(), 5.0F, Level.ExplosionInteraction.TNT);
             }
         }
         return InteractionResultHolder.sidedSuccess(itemstack, world.isClientSide());
     }
 
-    // Helper method to determine what block the player is looking at
     private BlockPos getPlayerLookingAt(Player player, Level world, double reachDistance) {
-        Vec3 startVec = player.getEyePosition(1.0F);  // Verify this method name with Parchment mappings
-        Vec3 lookVec = player.getViewVector(1.0F);    // Verify this method name with Parchment mappings
+        Vec3 startVec = player.getEyePosition(1.0F);
+        Vec3 lookVec = player.getViewVector(1.0F);
         Vec3 endVec = startVec.add(lookVec.scale(reachDistance));
 
         BlockHitResult rayTraceResult = world.clip(new ClipContext(startVec, endVec, ClipContext.Block.OUTLINE, ClipContext.Fluid.NONE, player));
